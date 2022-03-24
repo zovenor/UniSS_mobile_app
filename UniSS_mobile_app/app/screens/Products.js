@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import {SafeAreaView, Text, StyleSheet, TouchableOpacity, FlatList, View} from "react-native";
 import RequestData from '../config/requests';
+import Loading from '../components/loading';
 
 
 const Item = ({item}) => {
@@ -12,7 +13,8 @@ const Item = ({item}) => {
 }
 
 export default function Products({navigation}) {
-    const [products, set_products] = useState(null);
+    const [products, setProducts] = useState(null);
+    const [loaded, setLoaded] = useState(false);
 
     async function get_products() {
         const ngrok_url = 'https://b19e-2a02-bf0-141f-1cbe-d818-6345-9c81-7e6.ngrok.io';
@@ -25,25 +27,28 @@ export default function Products({navigation}) {
                 'App-Token': app_token,
             }
         }
-        let response = await fetch(url, data);
-        if (response.ok) {
-            let json = await response.json();
-            set_products(json.products);
-        }
+        await fetch(url, data).then(response => response.json()).then(responseJSON => {
+            setProducts(responseJSON.products);
+            setLoaded(true);
+        });
     }
 
     useEffect(get_products);
 
-    return (
-        <SafeAreaView style={styles.body}>
-            <FlatList
-                contentContainerStyle={styles.list}
-                data={products}
-                renderItem={Item}
+    if (loaded) {
+        return (
+            <SafeAreaView style={styles.body}>
+                <FlatList
+                    contentContainerStyle={styles.list}
+                    data={products}
+                    renderItem={Item}
 
-            />
-        </SafeAreaView>
-    )
+                />
+            </SafeAreaView>
+        )
+    } else {
+        return <Loading></Loading>;
+    }
 }
 
 const styles = StyleSheet.create({

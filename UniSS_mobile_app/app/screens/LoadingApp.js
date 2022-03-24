@@ -1,7 +1,7 @@
 import {Text, SafeAreaView, Image, StyleSheet} from 'react-native';
 import Colors from '../config/colors';
 
-export default function Loading(){
+export default function LoadingApp(){
     return (
         <SafeAreaView style={styles.main}>
             <Image style={styles.image} source={require('../icons/food_cart.png')} />

@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './app/screens/Home';
 import Products from './app/screens/Products';
 import Login from './app/screens/Login';
-import Loading from './app/screens/Loading';
+import LoadingApp from './app/screens/LoadingApp';
 import {Image, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from "react";
@@ -39,9 +39,10 @@ export default function App() {
                         tabBarInactiveTintColor: Colors.unActiveIcon,
                         headerTintColor: Colors.defaultFontColor,
                     }}>
-                        <Tab.Screen setAuth={setIsAuth} isAuth={isAuth} name={'Home'} component={Home} options={{
-                            title: "Home",
-                        }}/>
+                        <Tab.Screen initialParams={{
+                            setIsAuth: setIsAuth,
+                            isAuth: isAuth,
+                        }} name={'Home'} component={Home} options={{title: "Home"}}/>
                         <Tab.Screen name={'Products'} component={Products} options={{title: "Products"}}/>
                     </Tab.Navigator>
                     <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#00BCD4" translucent={true}/>
@@ -53,7 +54,7 @@ export default function App() {
         }
     }
     else{
-        return <Loading></Loading>
+        return <LoadingApp></LoadingApp>
     }
 
 
