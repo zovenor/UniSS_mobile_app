@@ -1,10 +1,10 @@
 # UniSS mobile app
 
 * # Login
-![Login](./screenshots/photo_2022-03-27_19-47-17.jpg)
+![Login](./screenshots/Login.jpg)
 * # Home
-![Home](./screenshots/photo_2022-03-27_19-47-13.jpg)
+![Home](./screenshots/Home.jpg)
 * # Products
-![Products](./screenshots/photo_2022-03-27_19-47-15.jpg)
+![Products](./screenshots/Products.jpg)
 * # Shops
-![Shops](./screenshots/photo_2022-03-27_19-47-19.jpg)
+![Shops](./screenshots/Shops.jpg)

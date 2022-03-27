@@ -14,10 +14,12 @@ import RequestData from '../config/requests';
 import Loading from '../components/loading';
 import Colors from "../config/colors";
 import {default as axios} from "axios";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import Settings from "./Settings";
 
 const deviceWidth = Dimensions.get('window').width;
 
-export default function Products({navigation}) {
+function Products({navigation}) {
     const [products, setProducts] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const [shopNames, setShopNames] = useState({});
@@ -104,6 +106,16 @@ export default function Products({navigation}) {
     } else {
         return <Loading/>;
     }
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function ProductsStack(props){
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Products" initialParams={props.route.params} component={Products}/>
+        </Stack.Navigator>
+    )
 }
 
 const styles = StyleSheet.create({

@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         margin: 10,
         paddingRight: 15,
         paddingLeft: 15,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-evenly',
         backgroundColor: Colors.appColor,
         borderRadius: 50,
         height: (deviceWidth/4)-20,
