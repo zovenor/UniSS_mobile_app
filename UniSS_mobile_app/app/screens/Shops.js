@@ -17,10 +17,12 @@ import Requests from "../config/requests";
 import RequestData from "../config/requests";
 import { Ionicons } from '@expo/vector-icons'
 import Loading from '../components/loading'
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import Settings from "./Settings";
 
 const deviceWidth = Dimensions.get('window').width;
 
-export default function Shops() {
+function Shops() {
     const [loaded, setLoaded] = useState(false)
     const [shops, setShops] = useState([]);
     const [shopNames, setShopNames] = useState({});
@@ -111,6 +113,17 @@ export default function Shops() {
         )
     }
 }
+
+const Stack = createNativeStackNavigator();
+
+export default function ShopStack(props){
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Shops" initialParams={props.route.params} component={Shops}/>
+        </Stack.Navigator>
+    )
+}
+
 const styles = StyleSheet.create({
     body: {
         flex: 1,
