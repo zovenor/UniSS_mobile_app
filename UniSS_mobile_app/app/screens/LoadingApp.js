@@ -4,17 +4,17 @@ import Colors from '../config/colors';
 export default function LoadingApp(){
     return (
         <SafeAreaView style={styles.main}>
-            <Image style={styles.image} source={require('../icons/food_cart.png')} />
-            <Text style={styles.text}>Loading...</Text>
+            <Image style={styles.image} source={require('../icons/UniSS_icon2.png')} />
+            <Text style={styles.text}>UniSS</Text>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     image: {
-        width: 125,
-        height: 125,
-        borderRadius: 35,
+        width: 150,
+        height: 150,
+        // borderRadius: 35,
     },
     main: {
         flex: 1,

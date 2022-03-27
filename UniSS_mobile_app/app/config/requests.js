@@ -1,5 +1,5 @@
 const RequestData = {
     app_token: 'i3MmShsaalQKrp16WYIm30Al4f0fYtr4',
-    url: 'https://54f1-46-216-188-228.ngrok.io',
+    baseUrl: 'https://24fb-185-158-218-65.ngrok.io',
 }
 export default RequestData;

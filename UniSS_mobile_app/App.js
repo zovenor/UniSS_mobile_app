@@ -9,6 +9,8 @@ import {Image, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from "react";
 import Colors from './app/config/colors';
+import { Ionicons } from '@expo/vector-icons'
+import Shops from "./app/screens/Shops";
 
 
 export default function App() {
@@ -33,28 +35,45 @@ export default function App() {
         if(isAuth){
             const Tab = createBottomTabNavigator();
             return (
-                <NavigationContainer>
+                <NavigationContainer >
                     <Tab.Navigator initialRouteName="Home" screenOptions={{
                         tabBarActiveTintColor: Colors.activeIcon,
                         tabBarInactiveTintColor: Colors.unActiveIcon,
                         headerTintColor: Colors.defaultFontColor,
+                        headerShown: false,
                     }}>
                         <Tab.Screen initialParams={{
                             setIsAuth: setIsAuth,
                             isAuth: isAuth,
-                        }} name={'Home'} component={Home} options={{title: "Home"}}/>
-                        <Tab.Screen name={'Products'} component={Products} options={{title: "Products"}}/>
+                        }} name={'Home'} component={Home} options={{
+                            title: "Home",
+                            tabBarIcon: ({ color, size }) => (
+                                <Ionicons name="home" color={color} size={size} />
+                            ),
+                        }}/>
+                        <Tab.Screen name={'Products'} component={Products} options={{
+                            title: "Products",
+                            tabBarIcon: ({ color, size }) => (
+                                <Ionicons name="pizza" color={color} size={size} />
+                            ),
+                        }}/>
+                        <Tab.Screen name={'Shops'} component={Shops} options={{
+                            title: "Shops",
+                            tabBarIcon: ({ color, size }) => (
+                                <Ionicons name="cart" color={color} size={size} />
+                            ),
+                        }}/>
                     </Tab.Navigator>
                     <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#00BCD4" translucent={true}/>
                 </NavigationContainer>
             );
         }
         else{
-            return <Login isAuth={isAuth} setIsAuth={setIsAuth}></Login>
+            return <Login isAuth={isAuth} setIsAuth={setIsAuth}/>
         }
     }
     else{
-        return <LoadingApp></LoadingApp>
+        return <LoadingApp/>
     }
 
 

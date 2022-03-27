@@ -4,52 +4,59 @@ import Colors from '../config/colors';
 import {useState} from "react";
 import RequestData from "../config/requests";
 import Loading from "../components/loading";
+import axios from 'axios';
 
 export default function Login(props) {
 
-    let login = async () => {
-        setLoaded(false);
-        const app_token = RequestData.app_token;
-        const data = {
-            method: 'POST',
-            headers: {
-                'App-Token': app_token,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-                {
-                    username: username,
-                    password: password,
-                }
-            ),
-        }
-        const url = RequestData.url + '/api/v1/token/';
-        await fetch(url, data).then((response) => {
-            if (response.status != 200) {
-                Alert.alert('Wrong data!');
-                setLoaded(true);
-            }
-            else{
-                return response.json();
-            }
-        }).then(responseJSON => {
-            if (responseJSON !== undefined) {
-                AsyncStorage.setItem('Auth-Token', JSON.stringify(responseJSON.token));
-                props.setIsAuth(true);
-                setLoaded(true);
-            }
-        });
-    };
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loaded, setLoaded] = useState(true);
+    const axios = require('axios').default;
 
-    if(loaded){
+    const login = async () => {
+        setLoaded(false);
+        const data = {
+            method: 'post',
+            url: RequestData.baseUrl + '/api/v1/token/',
+            headers: {
+                'App-Token': RequestData.app_token,
+            },
+            data: {
+                username: username,
+                password: password,
+            }
+        };
+
+        const get_response = () => axios(data)
+            .then(response => {
+                if (response.status === 200) {
+                    AsyncStorage.setItem('Auth-Token', response.data.token.toString());
+                    setLoaded(true);
+                    setUsername('');
+                    setPassword('');
+                    props.setIsAuth(true);
+                }
+            })
+            .catch(error => {
+                Alert.alert('Login', 'Wrong data!');
+                console.log(error.response.data.message);
+                setLoaded(true);
+            });
+        if((username==='')||(password==='')){
+            Alert.alert('Login', 'Wrong data!');
+            setLoaded(true);
+        }
+        else{
+            get_response();
+        }
+    };
+
+    if (loaded) {
         return (
             <View style={styles.body}>
                 <View style={styles.welcomeView}>
-                    <Image source={require('../icons/food_cart.png')} style={styles.welcomeImage}/>
+                    <Image source={require('../images/login.png')} style={styles.welcomeImage}/>
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.loginText}>Login</Text>
@@ -71,9 +78,8 @@ export default function Login(props) {
                 </View>
             </View>
         )
-    }
-    else{
-        return <Loading></Loading>;
+    } else {
+        return <Loading/>;
     }
 }
 
@@ -94,12 +100,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     welcomeImage: {
-        width: 125,
-        height: 125,
-        borderRadius: 35,
+        width: 300,
+        height: 300,
     },
     inputView: {
-        flex: 1.5,
+        flex: 1,
         backgroundColor: Colors.defaultBackgroundColor,
         width: '100%',
         borderTopRightRadius: 50,
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
         color: Colors.defaultBackgroundColor,
     },
     submitTouch: {
-        backgroundColor: Colors.activeIcon,
+        backgroundColor: Colors.appColor,
         width: 150,
         alignItems: 'center',
         justifyContent: 'center',

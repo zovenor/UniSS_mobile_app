@@ -1,53 +1,108 @@
 import {useState, useEffect} from 'react';
-import {SafeAreaView, Text, StyleSheet, TouchableOpacity, FlatList, View} from "react-native";
+import {
+    SafeAreaView,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    FlatList,
+    ScrollView,
+    RefreshControl,
+    Dimensions,
+    ImageBackground,
+} from "react-native";
 import RequestData from '../config/requests';
 import Loading from '../components/loading';
+import Colors from "../config/colors";
+import {default as axios} from "axios";
 
-
-const Item = ({item}) => {
-    return (
-        <TouchableOpacity style={styles.product}>
-            <Text style={styles.productText}>{item.name} - {item.price} {item.currency}</Text>
-        </TouchableOpacity>
-    )
-}
+const deviceWidth = Dimensions.get('window').width;
 
 export default function Products({navigation}) {
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState([]);
     const [loaded, setLoaded] = useState(false);
+    const [shopNames, setShopNames] = useState({});
 
-    async function get_products() {
-        const ngrok_url = 'https://b19e-2a02-bf0-141f-1cbe-d818-6345-9c81-7e6.ngrok.io';
-        const url = RequestData.url + '/api/v1/products/';
-        const app_token = RequestData.app_token;
-        let data = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'App-Token': app_token,
-            }
-        }
-        await fetch(url, data).then(response => response.json()).then(responseJSON => {
-            setProducts(responseJSON.products);
-            setLoaded(true);
-        });
+    const onRefresh = () => {
+        get_products();
     }
 
-    useEffect(get_products);
+    const Item = ({item}) => {
+        return (
+            <TouchableOpacity style={styles.product}>
+                <ImageBackground imageStyle={{
+                    opacity: .5,
+                    borderRadius: 50,
+                }} style={styles.productBackground} resizeMode={'cover'} source={require('../images/foodBackground.jpg')}>
+                    <Text style={styles.productText}>{item.name} - {item.price} {item.currency}</Text>
+                    <Text style={styles.productText}>{shopNames[item.id.toString()]}</Text>
+                    <Text style={styles.productCode}>{item.code}</Text>
+                </ImageBackground>
+            </TouchableOpacity>
+        )
+    }
+
+    const axios = require('axios').default;
+
+    const get_products = () => {
+        // setLoaded(false);
+        const data = {
+            method: 'get',
+            url: RequestData.baseUrl + '/api/v1/products/',
+            headers: {
+                'App-Token': RequestData.app_token,
+            }
+        }
+
+        const data2 = {
+            method: 'get',
+            url: RequestData.baseUrl + '/api/v1/get_shop_name/',
+            headers: {
+                'App-Token': RequestData.app_token,
+            }
+        }
+
+        axios(data)
+            .then(async (response) => {
+                let products_request = response.data.products;
+                console.log(products_request);
+                for (let el in products_request) {
+                    data2.headers.product = products_request[el].id;
+                    axios(data2).then(response => {
+                        setProducts(products_request)
+                        setShopNames(Object.assign(shopNames, {[products_request[el].id]:response.data.shop_name.toString()}))
+                        console.log(shopNames);
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                }
+                setLoaded(true);
+            })
+            .catch(error => {
+                setLoaded(true);
+                console.log(error);
+            });
+    }
+
+    useEffect(get_products, []);
 
     if (loaded) {
         return (
-            <SafeAreaView style={styles.body}>
-                <FlatList
-                    contentContainerStyle={styles.list}
-                    data={products}
-                    renderItem={Item}
-
-                />
-            </SafeAreaView>
+            <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
+                <SafeAreaView style={styles.body}>
+                    <FlatList
+                        contentContainerStyle={styles.list}
+                        data={products}
+                        renderItem={Item}
+                        style={{
+                            width: deviceWidth,
+                        }}
+                        conten
+                    />
+                </SafeAreaView>
+            </ScrollView>
         )
     } else {
-        return <Loading></Loading>;
+        return <Loading/>;
     }
 }
 
@@ -64,21 +119,34 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     product: {
-        margin: 10,
-        padding: 20,
-        width: 300,
-        backgroundColor: '#999',
-        borderRadius: 20,
+        minWidth: (deviceWidth) - 20,
+        backgroundColor: Colors.defaultFontColor,
+        borderRadius: 50,
+        marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        minHeight: (deviceWidth / 2) - 20,
     },
     productText: {
         fontSize: 20,
-        color: '#fff',
+        color: Colors.defaultBackgroundColor,
     },
     list: {
-        marginTop: 20,
-        flexGrow: 1,
+        marginTop: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    productCode: {
+        color: Colors.defaultBackgroundColor,
+        position: 'absolute',
+        bottom: 10,
+    },
+    productBackground: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
     },
 })
