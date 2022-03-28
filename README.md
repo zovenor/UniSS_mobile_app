@@ -10,3 +10,5 @@
 ![Products](./screenshots/Products.jpg)
 * # Shops
 ![Shops](./screenshots/Shops.jpg)
+* # Settings
+![Settings](./screenshots/Settings.jpg)
