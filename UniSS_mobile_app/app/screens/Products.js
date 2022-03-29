@@ -16,37 +16,21 @@ import Colors from "../config/colors";
 import {default as axios} from "axios";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Settings from "./Settings";
+import {Product} from "../components/Product";
 
 const deviceWidth = Dimensions.get('window').width;
 
 function Products({navigation}) {
     const [products, setProducts] = useState([]);
     const [loaded, setLoaded] = useState(false);
-    const [shopNames, setShopNames] = useState({});
 
     const onRefresh = () => {
         get_products();
     }
 
-    const Item = ({item}) => {
-        return (
-            <TouchableOpacity style={styles.product}>
-                <ImageBackground imageStyle={{
-                    opacity: .5,
-                    borderRadius: 50,
-                }} style={styles.productBackground} resizeMode={'cover'} source={require('../images/foodBackground.jpg')}>
-                    <Text style={styles.productText}>{item.name} - {item.price} {item.currency}</Text>
-                    <Text style={styles.productText}>{shopNames[item.id.toString()]}</Text>
-                    <Text style={styles.productCode}>{item.code}</Text>
-                </ImageBackground>
-            </TouchableOpacity>
-        )
-    }
-
     const axios = require('axios').default;
 
     const get_products = () => {
-        // setLoaded(false);
         const data = {
             method: 'get',
             url: RequestData.baseUrl + '/api/v1/products/',
@@ -66,16 +50,15 @@ function Products({navigation}) {
         axios(data)
             .then(async (response) => {
                 let products_request = response.data.products;
-                console.log(products_request);
                 for (let el in products_request) {
                     data2.headers.product = products_request[el].id;
-                    axios(data2).then(response => {
-                        setProducts(products_request)
-                        setShopNames(Object.assign(shopNames, {[products_request[el].id]:response.data.shop_name.toString()}))
+                    await axios(data2).then(response => {
+                        products_request[el].shopName=response.data.shop_name.toString()
                     }).catch(error => {
                         console.log(error);
                     });
                 }
+                setProducts(products_request)
                 setLoaded(true);
             })
             .catch(error => {
@@ -93,7 +76,7 @@ function Products({navigation}) {
                     <FlatList
                         contentContainerStyle={styles.list}
                         data={products}
-                        renderItem={Item}
+                        renderItem={Product}
                         style={{
                             width: deviceWidth,
                         }}

@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Settings from "./Settings";
 import Home from './Home';
 import {getUserInfo} from "../functions/getUserInfo";
+import Search from "./Search";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,9 @@ export default function HomeStack(props) {
             <Stack.Screen name="Settings"
                           initialParams={props.route.params}
                           component={Settings}/>
+            <Stack.Screen name="Search"
+                          initialParams={props.route.params}
+                          component={Search}/>
         </Stack.Navigator>
     )
 

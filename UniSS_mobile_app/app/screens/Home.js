@@ -42,11 +42,20 @@ export default function Home(props) {
                                      style={styles.welcomeView}>
                         <Text style={styles.welcomeText}>Welcome, {user.first_name}</Text>
                     </ImageBackground>
-                    <View style={styles.shortcutsView}>
+
+                    <View style={styles.buttonView}>
                         <TouchableOpacity onPress={() => {
                             props.navigation.navigate('Settings')
-                        }} style={styles.buttonView}>
+                        }} style={styles.button}>
                             <Ionicons name="cog" color={Colors.defaultBackgroundColor} size={40}/>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity onPress={() => {
+                            props.navigation.navigate('Search')
+                        }} style={styles.button}>
+                            <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40}/>
                         </TouchableOpacity>
                     </View>
                 </SafeAreaView>
@@ -62,27 +71,35 @@ export default function Home(props) {
 const styles = StyleSheet.create({
     body: {
         display: "flex",
-        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'stretch',
+        justifyContent: 'space-evenly',
         flex: 1,
     },
     welcomeText: {
         fontSize: 40,
         color: Colors.defaultFontColor,
-        margin: 20,
     },
     welcomeView: {
         justifyContent: 'center',
         alignItems: 'center',
         height: (deviceWidth / 2) - 20,
-        margin: 20,
         width: (deviceWidth) - 20,
+        marginBottom: 10,
+        marginTop: 10,
     },
-    shortcutsView: {
+    buttonView: {
         backgroundColor: Colors.appColor,
-        width: (deviceWidth) - 20,
-        height: (deviceWidth / 2) - 20,
+        width: (deviceWidth / 2) - 15,
+        height: (deviceWidth / 2) - 15,
         borderRadius: 50,
-        margin: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        flex: 1,
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     }

@@ -19,13 +19,13 @@ import { Ionicons } from '@expo/vector-icons'
 import Loading from '../components/loading'
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Settings from "./Settings";
+import {Shop} from '../components/Shop';
 
 const deviceWidth = Dimensions.get('window').width;
 
 function Shops() {
     const [loaded, setLoaded] = useState(false)
     const [shops, setShops] = useState([]);
-    const [shopNames, setShopNames] = useState({});
     const axios = require('axios').default;
 
     const get_shops = () => {
@@ -45,20 +45,18 @@ function Shops() {
             }
         }
 
-        axios(data).then(response => {
+        axios(data).then(async (response) => {
             let shops_h = response.data.shops;
             for (let el in shops_h) {
                 data2.headers.shop = response.data.shops[el].id;
-                axios(data2).then((response2) => {
-                    setShops(response.data.shops);
-                    setShopNames(Object.assign(shopNames, {[response.data.shops[el].id.toString()]: response2.data.shop_name.toString()}));
-                    setLoaded(true);
-                    console.log(shopNames);
+                await axios(data2).then((response2) => {
+                    shops_h[el].shopName = response2.data.shop_name.toString()
                 }).catch(error => {
-                    setLoaded(true);
                     console.log(error);
                 });
             }
+            setShops(shops_h);
+            setLoaded(true);
 
         }).catch(error => {
             setLoaded(true);
@@ -70,20 +68,11 @@ function Shops() {
         get_shops();
     }
 
-    const Item = ({item}) => {
-        return (
-            <TouchableOpacity style={styles.shop}>
-                <ImageBackground imageStyle={{borderRadius: 50, opacity: 0.5}} style={styles.shopBackground} resizeMode={'cover'} source={require('../images/shopBakground.jpg')}>
-                    <Text style={styles.shopText}>{shopNames[item.id.toString()]}</Text>
-                </ImageBackground>
-            </TouchableOpacity>
-        )
-    }
-
     useEffect(()=>{
         get_shops();
-        setLoaded(true);
     }, [])
+
+    // console.log(shops);
 
     if(loaded){
         return (
@@ -100,9 +89,9 @@ function Shops() {
                     <FlatList
                         contentContainerStyle={styles.list}
                         data={shops}
-                        renderItem={Item}
+                        renderItem={Shop}
                         style={{
-                            width: '100%',
+                            width: deviceWidth,
                         }}
                         conten
                     />
@@ -131,23 +120,6 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
     },
-    shop: {
-        margin: 10,
-        marginBottom: 0,
-        minWidth: (deviceWidth) - 40,
-        backgroundColor: Colors.defaultFontColor,
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: (deviceWidth / 2) - 20,
-        flexWrap: 'wrap',
-        flexDirection: 'column',
-    },
-    shopText: {
-        fontSize: 20,
-        display: 'flex',
-        color: Colors.defaultBackgroundColor,
-    },
     buttonView: {
         height: 45,
         borderRadius: 50,
@@ -160,12 +132,6 @@ const styles = StyleSheet.create({
         color: Colors.appColor,
         fontSize: 20,
     },
-    shopBackground: {
-        flex: 1,
-        justifyContent: 'center',
-        width: '100%',
-        alignItems: 'center',
-    },
     buttonsView: {
         flexDirection: 'row',
         margin: 10,
@@ -176,5 +142,12 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         height: (deviceWidth/4)-20,
         alignItems: 'center',
-    }
+    },
+    list: {
+        marginTop: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
 })
