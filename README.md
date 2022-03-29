@@ -12,3 +12,5 @@
 ![Shops](./screenshots/Shops.jpg)
 * # Settings
 ![Settings](./screenshots/Settings.jpg)
+* # Search
+![Search](./screenshots/Search.jpg)
