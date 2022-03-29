@@ -5,8 +5,6 @@ import {Alert} from "react-native";
 import {logout} from "./logout";
 
 export const getUserInfo = async (setLoaded, setUser, setIsAuth) => {
-    setLoaded(false);
-
     const axios = require('axios').default;
 
     const data = {
@@ -25,11 +23,12 @@ export const getUserInfo = async (setLoaded, setUser, setIsAuth) => {
             setUser(response.data.user);
         })
         .catch(error => {
+            console.log(error);
             Alert.alert('Get info', 'Error', [
                 {
                     text: 'Reload',
-                    onPress: ()=>{
-                        getUserInfo(setLoaded, setUser);
+                    onPress: () => {
+                        getUserInfo(setLoaded, setUser, setIsAuth);
                     }
                 },
                 {

@@ -11,10 +11,11 @@ const deviceWidth = Dimensions.get('window').width;
 export default function Settings(props) {
 
     const [loaded, setLoaded] = useState(false);
+    const [user, setUser] = useState({});
     const axios = require('axios').default;
 
     useEffect(() => {
-        getUserInfo(setLoaded, props.route.params.setUser, props.route.params.setIsAuth);
+        getUserInfo(setLoaded, setUser, props.route.params.setIsAuth);
     }, []);
 
     if (loaded) {
@@ -27,22 +28,22 @@ export default function Settings(props) {
                 <View style={styles.infoView}>
                     <View style={styles.infoBlock}>
                         <Text style={styles.namedInfo}>Username: </Text>
-                        <Text style={styles.textInfo}>{props.route.params.user.username}</Text>
+                        <Text style={styles.textInfo}>{user.username}</Text>
                     </View>
                     <View style={styles.infoBlock}>
                         <Text style={styles.namedInfo}>Name: </Text>
-                        <Text style={styles.textInfo}>{props.route.params.user.first_name}</Text>
+                        <Text style={styles.textInfo}>{user.first_name}</Text>
                     </View>
                     <View>
                         <View style={styles.infoBlock}>
                             <Text style={styles.namedInfo}>Surname: </Text>
-                            <Text style={styles.textInfo}>{props.route.params.user.last_name}</Text>
+                            <Text style={styles.textInfo}>{user.last_name}</Text>
                         </View>
                     </View>
                     <View>
                        <View style={styles.infoBlock}>
                            <Text style={styles.namedInfo}>Email: </Text>
-                           <Text style={styles.textInfo}>{props.route.params.user.email}</Text>
+                           <Text style={styles.textInfo}>{user.email}</Text>
                        </View>
                     </View>
                 </View>

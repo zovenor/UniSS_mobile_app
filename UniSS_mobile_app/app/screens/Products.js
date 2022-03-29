@@ -72,7 +72,6 @@ function Products({navigation}) {
                     axios(data2).then(response => {
                         setProducts(products_request)
                         setShopNames(Object.assign(shopNames, {[products_request[el].id]:response.data.shop_name.toString()}))
-                        console.log(shopNames);
                     }).catch(error => {
                         console.log(error);
                     });

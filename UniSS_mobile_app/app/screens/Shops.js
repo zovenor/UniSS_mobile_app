@@ -52,7 +52,10 @@ function Shops() {
                 axios(data2).then((response2) => {
                     setShops(response.data.shops);
                     setShopNames(Object.assign(shopNames, {[response.data.shops[el].id.toString()]: response2.data.shop_name.toString()}));
+                    setLoaded(true);
+                    console.log(shopNames);
                 }).catch(error => {
+                    setLoaded(true);
                     console.log(error);
                 });
             }

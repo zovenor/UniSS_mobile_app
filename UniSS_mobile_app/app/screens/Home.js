@@ -1,40 +1,34 @@
+import {useEffect, useState} from "react";
+import {getUserInfo} from "../functions/getUserInfo";
 import {
-    StyleSheet,
-    SafeAreaView,
-    Text,
-    Button,
-    Alert,
-    ScrollView,
-    RefreshControl,
-    TouchableOpacity,
     Dimensions,
     ImageBackground,
-    View,
-} from 'react-native';
-import Colors from '../config/colors'
-import {useState, useEffect} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import RequestData from "../config/requests";
-import Loading from '../components/loading';
+    RefreshControl,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import Settings from "./Settings";
-import {default as axios} from "axios";
-import {getUserInfo} from '../functions/getUserInfo';
+import Colors from "../config/colors";
+import Loading from "../components/loading";
 
 const deviceWidth = Dimensions.get('window').width;
 
-function Home(props) {
+export default function Home(props) {
 
     const [loaded, setLoaded] = useState(false);
+    const [user, setUser] = useState({});
     const axios = require('axios').default;
 
     const onRefresh = () => {
-        getUserInfo(setLoaded, props.route.params.setUser, props.route.params.setIsAuth);
+        getUserInfo(setLoaded, setUser, props.route.params.setIsAuth);
     }
 
     useEffect(() => {
-        getUserInfo(setLoaded, props.route.params.setUser, props.route.params.setIsAuth);
+        getUserInfo(setLoaded, setUser, props.route.params.setIsAuth);
     }, []);
 
     if (loaded) {
@@ -46,7 +40,7 @@ function Home(props) {
                         borderRadius: 50,
                     }} resizeMode={'cover'} source={require('../images/backgroundForUser.jpg')}
                                      style={styles.welcomeView}>
-                        <Text style={styles.welcomeText}>Welcome, {props.route.params.user.first_name}</Text>
+                        <Text style={styles.welcomeText}>Welcome, {user.first_name}</Text>
                     </ImageBackground>
                     <View style={styles.shortcutsView}>
                         <TouchableOpacity onPress={() => {
@@ -63,30 +57,6 @@ function Home(props) {
     }
 
 
-}
-
-const Stack = createNativeStackNavigator();
-
-export default function HomeStack(props) {
-
-    const [user, setUser] = useState({});
-
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Home"
-                          initialParams={Object.assign(props.route.params, {
-                              user: user,
-                              setUser: setUser,
-                          })}
-                          component={Home}/>
-            <Stack.Screen name="Settings"
-                          initialParams={Object.assign(props.route.params, {
-                              user: user,
-                              setUser: setUser,
-                          })}
-                          component={Settings}/>
-        </Stack.Navigator>
-    )
 }
 
 const styles = StyleSheet.create({
