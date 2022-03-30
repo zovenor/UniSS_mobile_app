@@ -21,24 +21,17 @@ export const Product = ({item}) => {
 
 const styles = StyleSheet.create({
     product: {
-        minWidth: (deviceWidth) - 20,
+        minWidth: deviceWidth - 20,
         backgroundColor: Colors.defaultFontColor,
         borderRadius: 50,
         marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: (deviceWidth / 2) - 20,
+        minHeight: (deviceWidth -20 ) / 2,
     },
     productText: {
         fontSize: 20,
         color: Colors.defaultBackgroundColor,
-    },
-    list: {
-        marginTop: 10,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        paddingLeft: 10,
-        paddingRight: 10,
     },
     productCode: {
         color: Colors.defaultBackgroundColor,

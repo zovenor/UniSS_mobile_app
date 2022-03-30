@@ -8,7 +8,7 @@ import {
     ScrollView,
     RefreshControl,
     Dimensions,
-    ImageBackground,
+    ImageBackground, LogBox,
 } from "react-native";
 import RequestData from '../config/requests';
 import Loading from '../components/loading';
@@ -67,7 +67,10 @@ function Products({navigation}) {
             });
     }
 
-    useEffect(get_products, []);
+    useEffect(()=>{
+        get_products();
+        LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
+    }, []);
 
     if (loaded) {
         return (
@@ -112,35 +115,9 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
     },
-    product: {
-        minWidth: (deviceWidth) - 20,
-        backgroundColor: Colors.defaultFontColor,
-        borderRadius: 50,
-        marginBottom: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: (deviceWidth / 2) - 20,
-    },
-    productText: {
-        fontSize: 20,
-        color: Colors.defaultBackgroundColor,
-    },
     list: {
         marginTop: 10,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         paddingLeft: 10,
         paddingRight: 10,
-    },
-    productCode: {
-        color: Colors.defaultBackgroundColor,
-        position: 'absolute',
-        bottom: 10,
-    },
-    productBackground: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 })

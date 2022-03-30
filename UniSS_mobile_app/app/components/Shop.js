@@ -19,16 +19,15 @@ export const Shop = ({item}) => {
 
 const styles = StyleSheet.create({
     shop: {
-        margin: 10,
-        marginBottom: 0,
-        minWidth: (deviceWidth) - 40,
+        minWidth: deviceWidth - 20,
         backgroundColor: Colors.defaultFontColor,
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: (deviceWidth / 2) - 20,
+        minHeight: (deviceWidth - 20) / 2,
         flexWrap: 'wrap',
         flexDirection: 'column',
+        marginBottom: 10,
     },
     shopText: {
         fontSize: 20,

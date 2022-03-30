@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     RefreshControl,
     Dimensions,
-    ImageBackground,
+    ImageBackground, LogBox,
 } from "react-native";
 import {useState, useEffect} from "react";
 import Colors from "../config/colors";
@@ -70,9 +70,8 @@ function Shops() {
 
     useEffect(()=>{
         get_shops();
+        LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
     }, [])
-
-    // console.log(shops);
 
     if(loaded){
         return (
@@ -108,7 +107,7 @@ function Shops() {
 
 const Stack = createNativeStackNavigator();
 
-export default function ShopStack(props){
+export default function ShopsStack(props){
     return(
         <Stack.Navigator>
             <Stack.Screen name="Shops" initialParams={props.route.params} component={Shops}/>
@@ -145,8 +144,6 @@ const styles = StyleSheet.create({
     },
     list: {
         marginTop: 10,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         paddingLeft: 10,
         paddingRight: 10,
     },
