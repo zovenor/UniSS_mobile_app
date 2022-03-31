@@ -7,9 +7,9 @@
 * # Home
 ![Home](./screenshots/Home.jpg)
 * # ProductsStack
-![ProductsStack](./screenshots/ProductsStack.jpg)
+![ProductsStack](./screenshots/Products.jpg)
 * # ShopsStack
-![ShopsStack](./screenshots/ShopsStack.jpg)
+![ShopsStack](./screenshots/Shops.jpg)
 * # Settings
 ![Settings](./screenshots/Settings.jpg)
 * # Search

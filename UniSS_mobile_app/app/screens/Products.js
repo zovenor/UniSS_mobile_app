@@ -72,27 +72,26 @@ export default function Products(props) {
 
     if (loaded) {
         return (
-            <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
-                <SafeAreaView style={styles.body}>
-                    <View style={styles.buttonsView}>
-                        <TouchableOpacity onPress={()=>{
-                            props.navigation.navigate('Search');
-                        }} style={styles.buttonView}>
-                            <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40} />
-                        </TouchableOpacity>
-                    </View>
-
-                    <FlatList
-                        contentContainerStyle={styles.list}
-                        data={products}
-                        renderItem={Product}
-                        style={{
-                            width: deviceWidth,
-                        }}
-                        conten
-                    />
-                </SafeAreaView>
-            </ScrollView>
+            <View style={styles.body}>
+                <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
+                        <FlatList
+                            contentContainerStyle={styles.list}
+                            data={products}
+                            renderItem={Product}
+                            style={{
+                                width: deviceWidth,
+                            }}
+                            conten
+                        />
+                </ScrollView>
+                <View style={styles.buttonsView}>
+                    <TouchableOpacity onPress={()=>{
+                        props.navigation.navigate('Search');
+                    }} style={styles.buttonView}>
+                        <Ionicons name="search" color={Colors.defaultBackgroundColor} size={30} />
+                    </TouchableOpacity>
+                </View>
+            </View>
         )
     } else {
         return <Loading/>;
@@ -106,6 +105,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        height: '100%',
     },
     text: {
         color: '#fff',
@@ -130,14 +130,16 @@ const styles = StyleSheet.create({
     },
     buttonsView: {
         flexDirection: 'row',
-        paddingRight: 15,
-        paddingLeft: 15,
         justifyContent: 'space-evenly',
         backgroundColor: Colors.appColor,
         alignItems: 'center',
-        height: (deviceWidth - 20) / 4,
-        width: (deviceWidth - 20) / 4,
+        height: (deviceWidth - 20) / 6,
+        width: (deviceWidth - 20) / 6,
         borderRadius: 50,
         marginTop: 10,
+        position: 'absolute',
+        bottom: 20,
+        zIndex: 100,
+        right: 20,
     },
 })

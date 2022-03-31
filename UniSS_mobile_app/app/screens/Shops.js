@@ -72,30 +72,30 @@ export default function Shops(props) {
 
     if(loaded){
         return (
-            <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
-                <SafeAreaView style={styles.body}>
-                    <View style={styles.buttonsView}>
-                        <TouchableOpacity onPress={()=>{
-                            props.navigation.navigate('Search');
-                        }} style={styles.buttonView}>
-                            <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40} />
-                        </TouchableOpacity>
+            <View style={styles.body}>
+                <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
+                        <FlatList
+                            contentContainerStyle={styles.list}
+                            data={shops}
+                            renderItem={Shop}
+                            style={{
+                                width: deviceWidth,
+                            }}
+                            conten
+                        />
+                </ScrollView>
+                <View style={styles.buttonsView}>
+                    <TouchableOpacity onPress={()=>{
+                        props.navigation.navigate('Search');
+                    }} style={styles.buttonView}>
+                        <Ionicons name="search" color={Colors.defaultBackgroundColor} size={30} />
+                    </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.buttonView}>
-                            <Ionicons name="navigate" color={Colors.defaultBackgroundColor} size={40} />
-                        </TouchableOpacity>
-                    </View>
-                    <FlatList
-                        contentContainerStyle={styles.list}
-                        data={shops}
-                        renderItem={Shop}
-                        style={{
-                            width: deviceWidth,
-                        }}
-                        conten
-                    />
-                </SafeAreaView>
-            </ScrollView>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Ionicons name="navigate" color={Colors.defaultBackgroundColor} size={30} />
+                    </TouchableOpacity>
+                </View>
+            </View>
         )
     }
     else{
@@ -126,16 +126,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     buttonsView: {
-        flexDirection: 'row',
-        paddingRight: 15,
-        paddingLeft: 15,
         justifyContent: 'space-evenly',
         backgroundColor: Colors.appColor,
         alignItems: 'center',
-        height: (deviceWidth - 20) / 4,
-        width: (deviceWidth - 20) / 2,
+        height: (deviceWidth - 20) / 6,
+        width: (deviceWidth - 20) / 3,
         borderRadius: 50,
         marginTop: 10,
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        zIndex: 100,
+        flexDirection: "row",
     },
     list: {
         marginTop: 10,
