@@ -1,26 +1,24 @@
-import {useState, useEffect} from 'react';
-import {
-    SafeAreaView,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    FlatList,
-    ScrollView,
-    RefreshControl,
-    Dimensions,
-    ImageBackground, LogBox,
-} from "react-native";
-import RequestData from '../config/requests';
-import Loading from '../components/loading';
-import Colors from "../config/colors";
+import {useEffect, useState} from "react";
+import RequestData from "../config/requests";
 import {default as axios} from "axios";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import Settings from "./Settings";
+import {
+    Dimensions,
+    FlatList,
+    LogBox,
+    RefreshControl,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity, View
+} from "react-native";
 import {Product} from "../components/Product";
+import Loading from "../components/loading";
+import {Ionicons} from "@expo/vector-icons";
+import Colors from "../config/colors";
 
 const deviceWidth = Dimensions.get('window').width;
 
-function Products({navigation}) {
+export default function Products(props) {
     const [products, setProducts] = useState([]);
     const [loaded, setLoaded] = useState(false);
 
@@ -76,6 +74,14 @@ function Products({navigation}) {
         return (
             <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
                 <SafeAreaView style={styles.body}>
+                    <View style={styles.buttonsView}>
+                        <TouchableOpacity onPress={()=>{
+                            props.navigation.navigate('Search');
+                        }} style={styles.buttonView}>
+                            <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40} />
+                        </TouchableOpacity>
+                    </View>
+
                     <FlatList
                         contentContainerStyle={styles.list}
                         data={products}
@@ -91,16 +97,6 @@ function Products({navigation}) {
     } else {
         return <Loading/>;
     }
-}
-
-const Stack = createNativeStackNavigator();
-
-export default function ProductsStack(props){
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name="Products" initialParams={props.route.params} component={Products}/>
-        </Stack.Navigator>
-    )
 }
 
 const styles = StyleSheet.create({
@@ -119,5 +115,29 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingLeft: 10,
         paddingRight: 10,
+    },
+    buttonView: {
+        height: 45,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+        marginLeft: 10,
+    },
+    buttonText: {
+        color: Colors.appColor,
+        fontSize: 20,
+    },
+    buttonsView: {
+        flexDirection: 'row',
+        paddingRight: 15,
+        paddingLeft: 15,
+        justifyContent: 'space-evenly',
+        backgroundColor: Colors.appColor,
+        alignItems: 'center',
+        height: (deviceWidth - 20) / 4,
+        width: (deviceWidth - 20) / 4,
+        borderRadius: 50,
+        marginTop: 10,
     },
 })

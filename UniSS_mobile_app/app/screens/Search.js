@@ -56,40 +56,45 @@ export default function Search(props) {
 
         let items_response = [];
 
-        axios(data2).then(async (response) => {
-            let shops_response = response.data.shops.slice(0, 10);
-            for (let el in shops_response) {
-                dataShopNames.headers.shop = shops_response[el].id;
-                shops_response[el].type = 'shop';
-                await axios(dataShopNames).then(response22 => {
-                    shops_response[el].shopName = response22.data.shop_name;
-                }).catch(error => {
-                    console.log(error);
-                });
-            }
-            items_response = [...items_response, ...shops_response];
-            setItems(items_response);
-        }).catch(error => {
-            console.log(error);
-        })
+        if(props.route.params.type !== 'products'){
+            axios(data2).then(async (response) => {
+                let shops_response = response.data.shops.slice(0, 10);
+                for (let el in shops_response) {
+                    dataShopNames.headers.shop = shops_response[el].id;
+                    shops_response[el].type = 'shop';
+                    await axios(dataShopNames).then(response22 => {
+                        shops_response[el].shopName = response22.data.shop_name;
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                }
+                setLoaded(true);
+                items_response = [...items_response, ...shops_response];
+                setItems(items_response);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
 
-        axios(data).then(async (response) => {
-            let products_response = response.data.products.slice(0, 10);
-            for (let el in products_response) {
-                dataShopNames.headers.product = products_response[el].id;
-                products_response[el].type = 'product';
-                await axios(dataShopNames).then(response12 => {
-                    products_response[el].shopName = response12.data.shop_name;
-                }).catch(error => {
-                    console.log(error);
-                });
-            }
-            setLoaded(true);
-            items_response = [...items_response, ...products_response];
-            setItems(items_response);
-        }).catch(error => {
-            console.log(error);
-        })
+        if(props.route.params.type !== 'shops'){
+            axios(data).then(async (response) => {
+                let products_response = response.data.products.slice(0, 10);
+                for (let el in products_response) {
+                    dataShopNames.headers.product = products_response[el].id;
+                    products_response[el].type = 'product';
+                    await axios(dataShopNames).then(response12 => {
+                        products_response[el].shopName = response12.data.shop_name;
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                }
+                setLoaded(true);
+                items_response = [...items_response, ...products_response];
+                setItems(items_response);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
 
     }
 
@@ -135,25 +140,25 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     inputView: {
-        borderWidth: 1,
+        // borderWidth: 1,
         padding: 10,
-        borderRadius: 50,
+        // borderRadius: 50,
         borderColor: Colors.defaultFontColorLight,
         paddingLeft: 30,
         paddingRight: 30,
-        width: deviceWidth - 40,
+        width: deviceWidth,
         height: 70,
         zIndex: 100,
         position: 'absolute',
         backgroundColor: Colors.defaultBackgroundColor,
         flexDirection: 'row',
         alignItems: "center",
-        margin: 10,
-        marginLeft: 20,
+        // margin: 10,
+        // marginLeft: 20,
     },
     list: {
         padding: 10,
-        paddingTop: 70 + 20,
+        paddingTop: 70 + 10,
         paddingBottom: 0,
         flexDirection: "column",
         minHeight: '100%',

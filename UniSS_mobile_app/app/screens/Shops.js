@@ -1,29 +1,26 @@
-import {
-    Text,
-    View,
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    FlatList,
-    TouchableOpacity,
-    RefreshControl,
-    Dimensions,
-    ImageBackground, LogBox,
-} from "react-native";
-import {useState, useEffect} from "react";
-import Colors from "../config/colors";
-import axios from 'axios';
+import {useEffect, useState} from "react";
 import Requests from "../config/requests";
 import RequestData from "../config/requests";
-import { Ionicons } from '@expo/vector-icons'
-import Loading from '../components/loading'
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import Settings from "./Settings";
-import {Shop} from '../components/Shop';
+import {default as axios} from "axios";
+import {
+    Dimensions,
+    FlatList,
+    LogBox,
+    RefreshControl,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    View
+} from "react-native";
+import {Ionicons} from "@expo/vector-icons";
+import Colors from "../config/colors";
+import {Shop} from "../components/Shop";
+import Loading from "../components/loading";
 
 const deviceWidth = Dimensions.get('window').width;
 
-function Shops() {
+export default function Shops(props) {
     const [loaded, setLoaded] = useState(false)
     const [shops, setShops] = useState([]);
     const axios = require('axios').default;
@@ -78,9 +75,12 @@ function Shops() {
             <ScrollView refreshControl={<RefreshControl onRefresh={onRefresh}/>}>
                 <SafeAreaView style={styles.body}>
                     <View style={styles.buttonsView}>
-                        <TouchableOpacity style={styles.buttonView}>
+                        <TouchableOpacity onPress={()=>{
+                            props.navigation.navigate('Search');
+                        }} style={styles.buttonView}>
                             <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40} />
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.buttonView}>
                             <Ionicons name="navigate" color={Colors.defaultBackgroundColor} size={40} />
                         </TouchableOpacity>
@@ -105,19 +105,13 @@ function Shops() {
     }
 }
 
-const Stack = createNativeStackNavigator();
-
-export default function ShopsStack(props){
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name="Shops" initialParams={props.route.params} component={Shops}/>
-        </Stack.Navigator>
-    )
-}
-
 const styles = StyleSheet.create({
     body: {
         flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
     },
     buttonView: {
         height: 45,
@@ -133,14 +127,15 @@ const styles = StyleSheet.create({
     },
     buttonsView: {
         flexDirection: 'row',
-        margin: 10,
         paddingRight: 15,
         paddingLeft: 15,
         justifyContent: 'space-evenly',
         backgroundColor: Colors.appColor,
-        borderRadius: 50,
-        height: (deviceWidth/4)-20,
         alignItems: 'center',
+        height: (deviceWidth - 20) / 4,
+        width: (deviceWidth - 20) / 2,
+        borderRadius: 50,
+        marginTop: 10,
     },
     list: {
         marginTop: 10,

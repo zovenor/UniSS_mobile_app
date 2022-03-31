@@ -20,7 +20,9 @@ export default function HomeStack(props) {
                           initialParams={props.route.params}
                           component={Settings}/>
             <Stack.Screen name="Search"
-                          initialParams={props.route.params}
+                          initialParams={Object.assign(props.route.params, {
+                              type: '',
+                          })}
                           component={Search}/>
         </Stack.Navigator>
     )

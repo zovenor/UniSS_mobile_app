@@ -2,7 +2,7 @@ import {StatusBar} from 'expo-status-bar';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStack from './app/screens/HomeStack';
-import ProductsStack from './app/screens/Products';
+import ProductsStack from './app/screens/ProductsStack';
 import Login from './app/screens/Login';
 import LoadingApp from './app/screens/LoadingApp';
 import {Image, StyleSheet} from 'react-native';
@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from "react";
 import Colors from './app/config/colors';
 import { Ionicons } from '@expo/vector-icons'
-import ShopsStack from "./app/screens/Shops";
+import ShopsStack from "./app/screens/ShopsStack";
 
 
 export default function App() {

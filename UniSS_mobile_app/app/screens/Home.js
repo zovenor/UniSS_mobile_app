@@ -54,7 +54,8 @@ export default function Home(props) {
                     <View style={styles.buttonView}>
                         <TouchableOpacity onPress={() => {
                             props.navigation.navigate('Search')
-                        }} style={styles.button}>
+                        }} style={styles.button}
+                        >
                             <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40}/>
                         </TouchableOpacity>
                     </View>
