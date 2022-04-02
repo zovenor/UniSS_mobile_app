@@ -3,9 +3,10 @@ import Colors from "../config/colors";
 
 const deviceWidth = Dimensions.get('window').width;
 
-export const Product = ({item}) => {
+export const Product = ({item, navigation}) => {
+
     return (
-        <TouchableOpacity style={styles.product}>
+        <TouchableOpacity style={styles.product} onPress={()=>{navigation.navigate('Product Info', {item})}}>
             <ImageBackground imageStyle={{
                 opacity: .5,
                 borderRadius: 50,

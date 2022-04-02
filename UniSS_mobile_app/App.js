@@ -5,7 +5,7 @@ import HomeStack from './app/screens/HomeStack';
 import ProductsStack from './app/screens/ProductsStack';
 import Login from './app/screens/Login';
 import LoadingApp from './app/screens/LoadingApp';
-import {Image, StyleSheet} from 'react-native';
+import {Image, LogBox, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from "react";
 import Colors from './app/config/colors';

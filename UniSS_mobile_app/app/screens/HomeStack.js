@@ -4,12 +4,17 @@ import Settings from "./Settings";
 import Home from './Home';
 import {getUserInfo} from "../functions/getUserInfo";
 import Search from "./Search";
+import {LogBox} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack(props) {
 
     const [user, setUser] = useState({});
+
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
 
     return (
         <Stack.Navigator>

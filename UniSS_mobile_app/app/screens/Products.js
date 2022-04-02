@@ -77,11 +77,12 @@ export default function Products(props) {
                         <FlatList
                             contentContainerStyle={styles.list}
                             data={products}
-                            renderItem={Product}
+                            renderItem={({item, navigation=props.navigation})=> {
+                                return Product({item, navigation});
+                            }}
                             style={{
                                 width: deviceWidth,
                             }}
-                            conten
                         />
                 </ScrollView>
                 <View style={styles.buttonsView}>
