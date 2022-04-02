@@ -40,7 +40,7 @@ export default function Login(props) {
             })
             .catch(error => {
                 Alert.alert('Login', 'Wrong data!');
-                console.log(error.response.data.message);
+                console.log(error.response.data);
                 setLoaded(true);
             });
         if((username==='')||(password==='')){

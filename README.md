@@ -14,3 +14,5 @@
 ![Settings](./screenshots/Settings.jpg)
 * # Search
 ![Search](./screenshots/Search.jpg)
+* # Product info
+![Product info](./screenshots/ProductInfo.jpg)
