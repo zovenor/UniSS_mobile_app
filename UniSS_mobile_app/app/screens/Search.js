@@ -123,7 +123,9 @@ export default function Search(props) {
                     <FlatList
                         contentContainerStyle={styles.list}
                         data={items}
-                        renderItem={Item}
+                        renderItem={({item})=>{
+                            return Item({item, navigation: props.navigation})
+                        }}
                     />
                 </View>
             </SafeAreaView>

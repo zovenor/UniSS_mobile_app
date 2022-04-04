@@ -3,20 +3,20 @@ import Colors from "../config/colors";
 
 const deviceWidth = Dimensions.get('window').width;
 
-export const Product = ({item, navigation}) => {
+export const Product = (props) => {
 
-    console.log(navigation);
+    console.log(props);
 
     return (
-        <TouchableOpacity style={styles.product} onPress={()=>{navigation.navigate('Product Info', {item})}}>
+        <TouchableOpacity style={styles.product} onPress={()=>{props.navigation.navigate('Product Info', {item: props.item})}}>
             <ImageBackground imageStyle={{
                 opacity: .5,
                 borderRadius: 50,
             }} style={styles.productBackground} resizeMode={'cover'}
                              source={require('../images/foodBackground.jpg')}>
-                <Text style={styles.productText}>{item.name} - {item.price} {item.currency}</Text>
-                <Text style={styles.productText}>{item.shopName}</Text>
-                <Text style={styles.productCode}>{item.code}</Text>
+                <Text style={styles.productText}>{props.item.name} - {props.item.price} {props.item.currency}</Text>
+                <Text style={styles.productText}>{props.item.shopName}</Text>
+                <Text style={styles.productCode}>{props.item.code}</Text>
             </ImageBackground>
         </TouchableOpacity>
     )

@@ -1,27 +1,62 @@
-import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Colors from '../config/colors';
+import {Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import Colors from "../config/colors";
 import {useState} from "react";
 import RequestData from "../config/requests";
 import Loading from "../components/loading";
-import axios from 'axios';
 import {login} from "../functions/login";
 
-export default function Login(props) {
-
+export const SignUp = (props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
+    const [email, setEmail] = useState('');
     const [loaded, setLoaded] = useState(true);
 
-    if (loaded) {
+    const axios = require('axios').default;
+
+    const register = (reg_username, reg_password, reg_password2, reg_email)=>{
+        if(reg_password!==reg_password2){
+            Alert.alert('Sign up', "Password don't match!");
+        }
+        else{
+            const data = {
+                url: RequestData.baseUrl + '/api/v1/register/',
+                method: 'post',
+                headers: {
+                    'App-Token': RequestData.app_token,
+                },
+                data: {
+                    username: reg_username,
+                    password: reg_password,
+                    email: reg_email,
+                }
+            }
+            axios(data).then(async (response) => {
+                console.log(response.data);
+                props.setRegister(false);
+                login(props.setIsAuth, setLoaded, reg_username, reg_password);
+            }).catch(error => {
+                console.log(error);
+                if(error.response.status===400){
+                    Alert.alert('Sign up', 'A user with this username exists!');
+                }
+                else{
+                    Alert.alert('Sign up', 'Wrong data!');
+                }
+            })
+            console.log(reg_username, reg_password, reg_password2);
+        }
+    }
+
+    if(loaded){
         return (
             <View style={styles.body}>
                 <View style={styles.welcomeView}>
-                    <Image source={require('../images/login.png')} style={styles.welcomeImage}/>
+                    <Image source={require('../images/signUp.png')} style={styles.welcomeImage}/>
                 </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.loginText}>Login</Text>
+                <ScrollView style={styles.inputView}>
+                    <Text style={styles.loginText}>Sign up</Text>
                     <View style={styles.formView}>
                         <View style={styles.textInputView}>
                             <TextInput onChangeText={newUsername => {
@@ -33,25 +68,38 @@ export default function Login(props) {
                                 setPassword(newPassword);
                             }} style={styles.textInput} editable placeholder={'Password'}/>
                         </View>
+                        <View style={styles.textInputView}>
+                            <TextInput secureTextEntry={true} onChangeText={newPassword => {
+                                setPassword2(newPassword);
+                            }} style={styles.textInput} editable placeholder={'Repeat password'}/>
+                        </View>
+                        <View style={styles.textInputView}>
+                            <TextInput secureTextEntry={true} onChangeText={newEmail => {
+                                setEmail(newEmail);
+                            }} style={styles.textInput} editable placeholder={'Email'}/>
+                        </View>
 
-                        <View style={{flexDirection: 'row'}}>
+                        <View style={{
+                            flexDirection: 'row',
+                        }}>
                             <TouchableOpacity onPress={() => {
-                                login(props.setIsAuth, setLoaded, username, password);
+                                register(username, password, password2, email)
                             }} style={styles.submitTouchEnable}>
-                                <Text style={styles.submitTextEnable}>Login</Text>
+                                <Text style={styles.submitTextEnable}>Sign up</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
-                                props.setRegister(true)
+                                props.setRegister(false)
                             }} style={styles.submitTouch}>
-                                <Text style={styles.submitText}>Sign up</Text>
+                                <Text style={styles.submitText}>Login</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </ScrollView>
             </View>
         )
-    } else {
-        return <Loading/>;
+    }
+    else{
+        return <Loading/>
     }
 }
 
@@ -67,7 +115,7 @@ const styles = StyleSheet.create({
         color: Colors.defaultFontColor,
     },
     welcomeView: {
-        flex: 1,
+        flex: 0.7,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -81,13 +129,14 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
-        alignItems: 'center',
+        // alignItems: 'center',
         padding: 40,
     },
     loginText: {
         fontSize: 30,
         color: Colors.defaultFontColor,
         marginBottom: 20,
+        textAlign: 'center',
     },
     textInput: {
         padding: 10,

@@ -11,12 +11,14 @@ import {useState} from "react";
 import Colors from './app/config/colors';
 import { Ionicons } from '@expo/vector-icons'
 import ShopsStack from "./app/screens/ShopsStack";
+import {SignUp} from "./app/screens/SignUp";
 
 
 export default function App() {
 
     const [loaded, setLoaded] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
+    const [register, setRegister] = useState(false);
 
      setTimeout(()=>{
          AsyncStorage.getItem('Auth-Token').then(result=>{
@@ -69,7 +71,12 @@ export default function App() {
             );
         }
         else{
-            return <Login isAuth={isAuth} setIsAuth={setIsAuth}/>
+            if(register){
+                return <SignUp setIsAuth={setIsAuth} setRegister={setRegister}/>
+            }
+            else{
+                return <Login isAuth={isAuth} setIsAuth={setIsAuth} setRegister={setRegister}/>
+            }
         }
     }
     else{

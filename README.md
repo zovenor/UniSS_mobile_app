@@ -4,6 +4,8 @@
 
 * # Login
 ![Login](./screenshots/Login.jpg)
+* # Sign up
+![SignUp](./screenshots/SignUp.jpg)
 * # Home
 ![Home](./screenshots/Home.jpg)
 * # ProductsStack
