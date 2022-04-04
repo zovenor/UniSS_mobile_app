@@ -30,7 +30,9 @@ export default function HomeStack(props) {
                           })}
                           component={Search}/>
             <Stack.Screen name="Scanner" component={Scanner}/>
-            <Stack.Screen name="Product Info" component={ProductInfo}/>
+            <Stack.Screen name="Product Info"
+                          initialParams={props.route.params}
+                          component={ProductInfo}/>
         </Stack.Navigator>
     )
 

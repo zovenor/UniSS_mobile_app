@@ -20,7 +20,7 @@ export const ProductInfo = (props) => {
                 format={'CODE128'}
                 background={'rgba(0,0,0,0)'}
                 maxWidth={deviceWidth}
-                width={3}
+                width={2.5}
                 height={150}
                 text={item.code.toString()}
                 lineColor={Colors.defaultFontColor}

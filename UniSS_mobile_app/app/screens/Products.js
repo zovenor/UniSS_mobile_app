@@ -77,8 +77,8 @@ export default function Products(props) {
                         <FlatList
                             contentContainerStyle={styles.list}
                             data={products}
-                            renderItem={({item, navigation=props.navigation})=> {
-                                return Product({item, navigation});
+                            renderItem={({item})=> {
+                                return Product({item, navigation: props.navigation});
                             }}
                             style={{
                                 width: deviceWidth,

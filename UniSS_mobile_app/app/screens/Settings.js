@@ -1,4 +1,4 @@
-import {Text, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Dimensions, View} from 'react-native';
+import {Text, SafeAreaView, StyleSheet, TouchableOpacity, Linking, Dimensions, View} from 'react-native';
 import Colors from "../config/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from "react";
@@ -45,6 +45,16 @@ export default function Settings(props) {
                            <Text style={styles.namedInfo}>Email: </Text>
                            <Text style={styles.textInfo}>{user.email}</Text>
                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.parOfSettings}>
+                    <Text style={styles.parOfSettingsText}>About</Text>
+                </View>
+
+                <View style={styles.infoView}>
+                    <View style={styles.infoBlock}>
+                        <Text style={styles.textInfo}>Application created by </Text><Text onPress={()=>{Linking.openURL('https://github.com/zovenor')}} style={styles.namedInfo}>Alexandr Romanenya</Text>
                     </View>
                 </View>
 
@@ -106,6 +116,7 @@ const styles = StyleSheet.create({
         margin: 10,
         flexDirection: 'row',
         alignItems: 'center',
+        flexWrap: 'wrap',
     },
     namedInfo: {
         fontWeight: 'bold',

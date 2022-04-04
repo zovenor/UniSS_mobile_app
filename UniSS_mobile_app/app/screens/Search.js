@@ -23,6 +23,8 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default function Search(props) {
 
+    // console.log(props.navigation.navigate);
+
     const [items, setItems] = useState([]);
     const [text, setText] = useState('');
     const [loaded, setLoaded] = useState(false);

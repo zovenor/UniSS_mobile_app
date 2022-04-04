@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import {Text, View, StyleSheet, Button, Dimensions, Alert} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import RequestData from "../config/requests";
+import Loading from "../components/loading";
 
 const deviceWidth = Dimensions.get('window').width;
 
 export default function Scanner({navigation}) {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
+    const [loaded, setLoaded] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -17,7 +19,8 @@ export default function Scanner({navigation}) {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);zz
+        setLoaded(false);
+        setScanned(true);
         getProductByCode(data);
     };
 
@@ -46,12 +49,14 @@ export default function Scanner({navigation}) {
             data2.headers.product = item.id;
             await axios(data2).then(response=>{
                 item.shop_name = response.data.shop_name;
+                setLoaded(true);
                 navigation.navigate('Product Info', {item});
             }).catch((error)=>{
                 console.log(error);
             });
         }).catch(error=>{
             Alert.alert('Scanner', 'Product not found!');
+            setLoaded(true);
         })
     }
 
@@ -62,15 +67,22 @@ export default function Scanner({navigation}) {
         return <Text>No access to camera</Text>;
     }
 
-    return (
-        <View style={styles.container}>
-            <BarCodeScanner
-                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                style={styles.absoluteFillObject}
-            />
-            {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-        </View>
-    );
+    if(loaded){
+        return (
+            <View style={styles.container}>
+                <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    style={styles.absoluteFillObject}
+                />
+                {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
+            </View>
+        );
+    }
+    else{
+        return (
+            <Loading/>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

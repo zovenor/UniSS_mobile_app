@@ -5,6 +5,8 @@ const deviceWidth = Dimensions.get('window').width;
 
 export const Product = ({item, navigation}) => {
 
+    console.log(navigation);
+
     return (
         <TouchableOpacity style={styles.product} onPress={()=>{navigation.navigate('Product Info', {item})}}>
             <ImageBackground imageStyle={{

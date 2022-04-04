@@ -18,5 +18,5 @@
 ![Product info](./screenshots/ProductInfo.jpg)
 * # Scanner
 ![Scanner](./screenshots/Scanner.jpg)
-* # ProductInfoAfterScanning
+* # Product info after scanning
 ![ProductInfoAfterScanning](./screenshots/ProductInfoAfterScanning.jpg)
