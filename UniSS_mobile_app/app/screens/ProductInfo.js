@@ -6,8 +6,6 @@ const deviceWidth = Dimensions.get('window').width;
 
 export const ProductInfo = (props) => {
 
-    console.log(props);
-
     const item = props.route.params.item;
 
     props.navigation.setOptions({title: item.name});

@@ -16,3 +16,7 @@
 ![Search](./screenshots/Search.jpg)
 * # Product info
 ![Product info](./screenshots/ProductInfo.jpg)
+* # Scanner
+![Scanner](./screenshots/Scanner.jpg)
+* # ProductInfoAfterScanning
+![ProductInfoAfterScanning](./screenshots/ProductInfoAfterScanning.jpg)

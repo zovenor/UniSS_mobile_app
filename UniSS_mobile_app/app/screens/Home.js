@@ -58,6 +58,14 @@ export default function Home(props) {
                         >
                             <Ionicons name="search" color={Colors.defaultBackgroundColor} size={40}/>
                         </TouchableOpacity>
+
+                    </View><View style={styles.buttonView} width={deviceWidth-20}>
+                        <TouchableOpacity onPress={() => {
+                            props.navigation.navigate('Scanner')
+                        }} style={styles.button}
+                        >
+                            <Ionicons name="scan" color={Colors.defaultBackgroundColor} size={40}/>
+                        </TouchableOpacity>
                     </View>
                 </SafeAreaView>
             </ScrollView>
@@ -97,6 +105,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 10,
     },
     button: {
         flex: 1,

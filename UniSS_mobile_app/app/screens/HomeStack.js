@@ -5,12 +5,12 @@ import Home from './Home';
 import {getUserInfo} from "../functions/getUserInfo";
 import Search from "./Search";
 import {LogBox} from "react-native";
+import Scanner from './Scanner';
+import {ProductInfo} from "./ProductInfo";
 
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack(props) {
-
-    const [user, setUser] = useState({});
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
@@ -29,6 +29,8 @@ export default function HomeStack(props) {
                               type: '',
                           })}
                           component={Search}/>
+            <Stack.Screen name="Scanner" component={Scanner}/>
+            <Stack.Screen name="Product Info" component={ProductInfo}/>
         </Stack.Navigator>
     )
 
